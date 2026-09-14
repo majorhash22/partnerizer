@@ -33,6 +33,19 @@ Upload the contents of `dist` to any static host. The Vite base path is relative
 
 For GitHub, commit the source files and `pnpm-lock.yaml`. Do not commit `node_modules`, local caches, environment files, or design-review artifacts. The included `.gitignore` handles these exclusions.
 
+### GitHub Pages
+
+The repository includes `.github/workflows/deploy-pages.yml`. Every push to `main` installs the locked dependencies, builds the site with the `/partnerizer/` base path, and deploys `dist` to GitHub Pages.
+
+After pushing the workflow for the first time:
+
+1. Open the repository on GitHub.
+2. Go to **Settings**, then **Pages**.
+3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+4. Open the **Actions** tab and confirm that the deployment completes.
+
+The deployed site will be available at `https://majorhash22.github.io/partnerizer/`.
+
 ## Features
 
 - Responsive desktop and mobile layouts
