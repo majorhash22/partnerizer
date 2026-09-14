@@ -1,0 +1,29 @@
+{
+  "name": "partnerizer-website",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "vite --configLoader runner --host 127.0.0.1",
+    "build": "pnpm run build:site && pnpm run build:standalone",
+    "build:site": "vite build --configLoader runner",
+    "build:standalone": "node scripts/build-standalone.mjs",
+    "preview": "vite preview --configLoader runner --host 127.0.0.1"
+  },
+  "dependencies": {
+    "@fontsource/barlow-condensed": "5.3.0",
+    "@fontsource/manrope": "5.3.0",
+    "@phosphor-icons/react": "2.1.10",
+    "motion": "13.2.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "6.1.1",
+    "vite": "8.3.0"
+  },
+  "packageManager": "pnpm@10.17.1"
+}

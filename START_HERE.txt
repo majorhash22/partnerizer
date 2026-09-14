@@ -1,0 +1,11 @@
+PARTNERIZER WEBSITE
+
+To view the website immediately:
+
+1. Double-click OPEN_WEBSITE.html.
+2. It opens in your normal web browser.
+3. No installation or local server is required.
+
+Opening index.html also redirects to the working standalone version.
+
+For installation, production builds, and deployment, see README.md.

@@ -1,0 +1,28 @@
+# Dependencies and package-manager caches
+node_modules/
+.pnpm-store/
+
+# Build and framework caches
+dist/
+.vite-cache/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Logs and test artifacts
+*.log
+coverage/
+playwright-report/
+test-results/
+
+# Local design and backup artifacts
+design-reference/
+OPEN_WEBSITE_before_*.html
+dist-pre-clean/
+public/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
