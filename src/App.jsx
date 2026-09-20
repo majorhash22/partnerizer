@@ -25,58 +25,58 @@ import {
 
 const navItems = [
   ["Solution", "#solution"],
+  ["MerchantMatcher", "#merchant-matcher"],
   ["How it works", "#how-it-works"],
-  ["For networks", "#for-networks"],
-  ["Pilot", "#pilot"],
+  ["Build your cohort", "#cohort"],
 ];
 
 const workflowSteps = [
   {
     name: "Profile",
-    copy: "Members define what they offer, what they need, and who they can help.",
+    copy: "A business defines what it offers, what it needs, and the relationships it wants to build.",
     detail:
-      "Structured profiles make every member easier to understand, search, and introduce with confidence.",
+      "MerchantMatcher turns that business context into a partner-ready profile that is easier to understand, search, and introduce with confidence.",
     icon: IdentificationCard,
   },
   {
     name: "Match",
-    copy: "The network surfaces relevant partners around real business needs.",
+    copy: "Relevant opportunities are surfaced around real business needs and mutual fit.",
     detail:
-      "Practical criteria and operator context keep recommendations focused on fit, trust, and mutual value.",
+      "Matching combines practical criteria with network context so businesses see connections that have a clear reason to move forward.",
     icon: MagnifyingGlass,
   },
   {
     name: "Introduce",
-    copy: "Members approve warm, consent-first introductions before contact is shared.",
+    copy: "Businesses approve warm, consent-first introductions before contact moves forward.",
     detail:
-      "Every introduction starts with context and a clear reason to meet, then moves into a shared next step.",
+      "Each introduction carries context, intent, and a shared reason to connect instead of leaving businesses with another cold directory entry.",
     icon: PaperPlaneTilt,
   },
   {
-    name: "Track",
-    copy: "Operators follow meetings, opportunities, referrals, and partner progress.",
+    name: "Grow",
+    copy: "Introductions become meetings, referrals, opportunities, and stronger network participation.",
     detail:
-      "Activity becomes evidence the network can use to improve member value and guide the next cohort.",
+      "The activity creates a visible path from a match to business outcomes while giving the partner network better insight into member engagement.",
     icon: ChartLineUp,
   },
 ];
 
 const audiences = [
   {
-    title: "Chambers",
-    copy: "Give members a clearer path from attendance to commercial collaboration.",
+    title: "Already a member",
+    copy: "Start matching with businesses inside a network you already know and trust.",
   },
   {
-    title: "Referral networks",
-    copy: "Make relevant introductions easier to create, accept, and follow through.",
+    title: "Joining a network",
+    copy: "Use MerchantMatcher as a practical first step into a participating local business community.",
   },
   {
-    title: "Associations",
-    copy: "Turn shared expertise into practical partner opportunities across the member base.",
+    title: "Independent business",
+    copy: "Discover relevant partners first, then connect into the network that can help those relationships grow.",
   },
   {
-    title: "Member organizations",
-    copy: "Prove the value of trusted relationships with visible, measurable activity.",
+    title: "Network partner",
+    copy: "Give businesses a clearer onboarding path and a useful reason to stay active after they join.",
   },
 ];
 
@@ -160,10 +160,10 @@ function BrandLockup({ footer = false }) {
   );
 }
 
-function ActionLink({ href, children, secondary = false, onClick }) {
+function ActionLink({ href, children, secondary = false, accent = false, onClick }) {
   return (
     <a
-      className={`button${secondary ? " button--secondary" : ""}`}
+      className={`button${secondary ? " button--secondary" : ""}${accent ? " button--accent" : ""}`}
       href={href}
       onClick={onClick}
     >
@@ -173,7 +173,7 @@ function ActionLink({ href, children, secondary = false, onClick }) {
   );
 }
 
-function Header({ onPilotOpen }) {
+function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const reduceMotion = useReducedMotion();
 
@@ -186,11 +186,6 @@ function Header({ onPilotOpen }) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [menuOpen]);
 
-  const openPilot = (event) => {
-    event.preventDefault();
-    setMenuOpen(false);
-    onPilotOpen();
-  };
 
   return (
     <motion.header
@@ -205,8 +200,8 @@ function Header({ onPilotOpen }) {
           <a key={href} href={href}>{label}</a>
         ))}
       </nav>
-      <a className="header-cta" href="#pilot" onClick={openPilot}>
-        Build your pilot
+      <a className="header-cta" href="#merchant-matcher" onClick={() => setMenuOpen(false)}>
+        Explore MerchantMatcher
         <ArrowRight size={18} weight="bold" aria-hidden="true" />
       </a>
       <button
@@ -231,8 +226,8 @@ function Header({ onPilotOpen }) {
             {navItems.map(([label, href]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
             ))}
-            <a className="mobile-nav__cta" href="#pilot" onClick={openPilot}>
-              Build your pilot
+            <a className="mobile-nav__cta" href="#merchant-matcher" onClick={() => setMenuOpen(false)}>
+              Explore MerchantMatcher
               <ArrowRight size={18} weight="bold" />
             </a>
           </motion.nav>
@@ -269,17 +264,19 @@ function Hero({ onPilotOpen }) {
           }}
         >
           <motion.h1 variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            <span>Turn member connections</span>
-            <span>into <strong>measurable growth.</strong></span>
+            <span>Better business matches.</span>
+            <span><strong>Stronger local networks.</strong></span>
           </motion.h1>
           <motion.p variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            PartneRizer helps trusted business networks create better matches, warm introductions, and trackable partner outcomes.
+            PartneRizer is the partnership solution behind MerchantMatcher — the business-facing experience that turns real needs into relevant matches, warm introductions, and stronger network participation.
           </motion.p>
           <motion.div className="hero__actions" variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            <ActionLink href="#pilot" onClick={(event) => { event.preventDefault(); onPilotOpen(); }}>
-              Build your pilot
+            <ActionLink href="#merchant-matcher" accent>
+              Explore MerchantMatcher
             </ActionLink>
-            <ActionLink href="#how-it-works" secondary>See how it works</ActionLink>
+            <ActionLink href="#cohort" secondary onClick={(event) => { event.preventDefault(); onPilotOpen(); }}>
+              Build your cohort
+            </ActionLink>
           </motion.div>
         </motion.div>
         <motion.p
@@ -288,7 +285,7 @@ function Hero({ onPilotOpen }) {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.5 }}
         >
-          Networking creates contact.<br />Partnership operations create outcomes.
+          MerchantMatcher activates the business relationship.<br />PartneRizer helps the network make it work.
         </motion.p>
       </div>
     </ScrollRevealSection>
@@ -329,14 +326,14 @@ function ProblemSection() {
         >
           <SectionIntro
             title="From introductions to outcomes"
-            body="Events and directories create visibility. PartneRizer adds the structure that moves a promising connection into a trusted, trackable partnership."
+            body="Directories can show who is in the room. MerchantMatcher helps businesses understand who is relevant, why they should connect, and what a useful next step could be."
           />
           <div className="problem__result">
             <span>Connection</span>
             <ArrowRight size={22} weight="bold" aria-hidden="true" />
             <span>Context</span>
             <ArrowRight size={22} weight="bold" aria-hidden="true" />
-            <strong>Commercial activity</strong>
+            <strong>Business opportunity</strong>
           </div>
         </motion.div>
       </div>
@@ -345,74 +342,74 @@ function ProblemSection() {
 }
 
 function ProductLayers() {
-  const [active, setActive] = useState("operator");
-  const layerCopy = {
-    operator: {
-      heading: "The operating layer",
-      body: "Configure a focused cohort, guide onboarding, review match quality, trigger introductions, and see what happens next.",
-      items: ["Cohort onboarding", "Curated match review", "Outcome reporting"],
-    },
-    member: {
-      heading: "The activation layer",
-      body: "Create a partner-ready profile, define offers and needs, discover relevant collaborators, and move warm introductions forward.",
-      items: ["Partner-ready profiles", "Relevant matches", "Shared next steps"],
-    },
-  };
-  const selected = layerCopy[active];
-
   return (
-    <ScrollRevealSection className="layers section" id="platform">
+    <ScrollRevealSection className="layers section" id="merchant-matcher">
       <div className="shell">
         <SectionIntro
-          title="One platform. Two clear experiences."
-          body="The network operates the system. Members experience the value."
+          title="One partnership solution. One clear business experience."
+          body="PartneRizer supports the relationship with the network. MerchantMatcher sits underneath it as the experience businesses use to discover and act on relevant opportunities."
           light
         />
-        <div className="layers__grid">
-          <div className="layer-tabs" role="tablist" aria-label="Product experiences">
-            <button
-              className={active === "operator" ? "is-active" : ""}
-              type="button"
-              role="tab"
-              aria-selected={active === "operator"}
-              aria-controls="layer-panel"
-              onClick={() => setActive("operator")}
-            >
-              <span>PartneRizer Platform</span>
-              <small>For network operators</small>
-            </button>
-            <button
-              className={active === "member" ? "is-active" : ""}
-              type="button"
-              role="tab"
-              aria-selected={active === "member"}
-              aria-controls="layer-panel"
-              onClick={() => setActive("member")}
-            >
-              <span>MerchantMatcher</span>
-              <small>For members</small>
-            </button>
-          </div>
-          <AnimatePresence mode="wait">
-            <motion.div
-              className="layer-panel"
-              id="layer-panel"
-              role="tabpanel"
-              key={active}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.25 }}
-            >
-              <h3>{selected.heading}</h3>
-              <p>{selected.body}</p>
+        <div className="layer-stack" aria-label="PartneRizer and MerchantMatcher relationship">
+          <motion.article
+            className="layer-card layer-card--platform"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={reveal}
+            transition={{ duration: 0.55 }}
+          >
+            <div className="layer-card__eyebrow">Partnership layer</div>
+            <div className="layer-card__body">
+              <div>
+                <h3>PartneRizer</h3>
+                <p>A partnership solution built with network leaders to shape the cohort, support onboarding, guide match quality, and learn what creates value in that specific ecosystem.</p>
+              </div>
               <ul>
-                {selected.items.map((item) => (
-                  <li key={item}><CheckCircle size={20} weight="fill" />{item}</li>
-                ))}
+                <li><CheckCircle size={20} weight="fill" />Network partnership</li>
+                <li><CheckCircle size={20} weight="fill" />Cohort design</li>
+                <li><CheckCircle size={20} weight="fill" />Human oversight</li>
               </ul>
-            </motion.div>
-          </AnimatePresence>
+            </div>
+          </motion.article>
+
+          <div className="layer-connector" aria-hidden="true">
+            <span />
+            <small>powers</small>
+            <span />
+          </div>
+
+          <motion.article
+            className="layer-card layer-card--matcher"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+            variants={reveal}
+            transition={{ duration: 0.55, delay: 0.08 }}
+          >
+            <div className="layer-card__eyebrow">Business experience</div>
+            <div className="layer-card__body">
+              <div>
+                <h3><span>Merchant</span>Matcher</h3>
+                <p>The market-facing app for small and medium-sized businesses to create a partner-ready profile, discover relevant collaborators, approve warm introductions, and take the next step into their network of choice.</p>
+              </div>
+              <ul>
+                <li><CheckCircle size={20} weight="fill" />Partner-ready profiles</li>
+                <li><CheckCircle size={20} weight="fill" />Relevant matches</li>
+                <li><CheckCircle size={20} weight="fill" />Warm introductions</li>
+              </ul>
+            </div>
+          </motion.article>
+
+          <div className="layer-outcome">
+            <span>Discover</span>
+            <ArrowRight size={18} weight="bold" aria-hidden="true" />
+            <span>Match</span>
+            <ArrowRight size={18} weight="bold" aria-hidden="true" />
+            <span>Connect</span>
+            <ArrowRight size={18} weight="bold" aria-hidden="true" />
+            <strong>Grow through the network</strong>
+          </div>
         </div>
       </div>
     </ScrollRevealSection>
@@ -427,11 +424,11 @@ function Workflow() {
     <ScrollRevealSection className="workflow section" id="how-it-works">
       <div className="shell">
         <SectionIntro
-          title="A repeatable path to partner revenue"
-          body="A simple workflow helps trusted relationships move forward with context and a shared next step."
+          title="How MerchantMatcher moves a business forward"
+          body="The experience stays simple for businesses while preserving the context and human judgment that make a trusted introduction useful."
           light
         />
-        <div className="workflow__rail" role="tablist" aria-label="PartneRizer workflow">
+        <div className="workflow__rail" role="tablist" aria-label="MerchantMatcher workflow">
           <motion.span
             className="workflow__progress"
             aria-hidden="true"
@@ -482,7 +479,7 @@ function Workflow() {
 
 function AudienceSection() {
   return (
-    <ScrollRevealSection className="audience section" id="for-networks">
+    <ScrollRevealSection className="audience section" id="network-pathway">
       <div className="shell audience__layout">
         <motion.figure
           className="audience__image"
@@ -499,8 +496,8 @@ function AudienceSection() {
         </motion.figure>
         <div>
           <SectionIntro
-            title="Built for networks that already have trust"
-            body="Start where relationships, credibility, and member concentration already exist."
+            title="A clearer path into a trusted business network"
+            body="MerchantMatcher can serve businesses already inside a network and businesses looking for the right way in. The network becomes the trusted environment where those relationships can keep growing."
           />
           <div className="audience__list">
             {audiences.map((audience, index) => (
@@ -608,7 +605,7 @@ function FounderSection() {
 
 function PilotSection({ onPilotOpen }) {
   return (
-    <ScrollRevealSection className="pilot" id="pilot">
+    <ScrollRevealSection className="pilot" id="cohort">
       <img
         className="pilot__image"
         src="./images/pilot-landscape.webp"
@@ -623,10 +620,10 @@ function PilotSection({ onPilotOpen }) {
         variants={reveal}
         transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2>Start with one network and one focused cohort.</h2>
-        <p>Prove the value. Build momentum. Then grow.</p>
+        <h2>Build a focused cohort around a real network opportunity.</h2>
+        <p>Start deliberately, apply what we learn, and turn the strongest practices into a repeatable model.</p>
         <button className="button" type="button" onClick={onPilotOpen}>
-          <span>Build your pilot</span>
+          <span>Build your cohort</span>
           <ArrowRight size={19} weight="bold" aria-hidden="true" />
         </button>
       </motion.div>
@@ -660,14 +657,14 @@ function PilotPlanner({ open, onClose }) {
   }, [open, onClose]);
 
   const summary = useMemo(
-    () => `PartneRizer pilot brief\nOrganization: ${organization || "Your organization"}\nNetwork type: ${networkType}\nMember cohort: ${memberCount} members\nPrimary goal: ${goal}\nSuggested starting point: one 90-day network pilot with a focused cohort, partner-ready profiles, curated matches, consent-first introductions, and outcome tracking.`,
+    () => `PartneRizer cohort brief\nOrganization: ${organization || "Your organization"}\nNetwork type: ${networkType}\nFocused cohort: ${memberCount} members\nPrimary goal: ${goal}\nSuggested starting point: one focused network cohort using MerchantMatcher for partner-ready profiles, relevant matches, consent-first introductions, and practical outcome tracking.`,
     [goal, memberCount, networkType, organization],
   );
 
   const submit = (event) => {
     event.preventDefault();
     if (!organization.trim()) {
-      setError("Add your organization name to create the pilot brief.");
+      setError("Add your organization name to create the cohort brief.");
       return;
     }
     setError("");
@@ -715,13 +712,13 @@ function PilotPlanner({ open, onClose }) {
             exit={{ opacity: 0, y: 18, scale: 0.98 }}
             transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
           >
-            <button className="pilot-planner__close" type="button" onClick={onClose} aria-label="Close pilot planner">
+            <button className="pilot-planner__close" type="button" onClick={onClose} aria-label="Close cohort planner">
               <X size={24} />
             </button>
             {!complete ? (
               <form onSubmit={submit} noValidate>
-                <span className="pilot-planner__step">Pilot planner</span>
-                <h2 id="pilot-planner-title">Shape your first cohort</h2>
+                <span className="pilot-planner__step">Cohort planner</span>
+                <h2 id="pilot-planner-title">Shape a focused cohort</h2>
                 <p>A focused starting brief takes less than a minute. Nothing leaves your browser.</p>
                 <label>
                   Organization name
@@ -764,15 +761,15 @@ function PilotPlanner({ open, onClose }) {
                 </label>
                 {error ? <p className="form-error" role="alert">{error}</p> : null}
                 <button className="button pilot-planner__submit" type="submit">
-                  <span>Create pilot brief</span>
+                  <span>Create cohort brief</span>
                   <ArrowRight size={19} weight="bold" />
                 </button>
               </form>
             ) : (
               <div className="pilot-summary">
                 <span className="pilot-planner__step">Your starting brief</span>
-                <h2 id="pilot-planner-title">A focused 90-day pilot</h2>
-                <p>Use this summary to guide the first PartneRizer conversation.</p>
+                <h2 id="pilot-planner-title">A focused starting cohort</h2>
+                <p>Use this summary to guide a PartneRizer conversation with a prospective network partner.</p>
                 <pre>{summary}</pre>
                 {error ? <p className="form-error" role="alert">{error}</p> : null}
                 <div className="pilot-summary__actions">
@@ -811,7 +808,7 @@ export default function App() {
   const [pilotOpen, setPilotOpen] = useState(false);
   return (
     <MotionConfig reducedMotion="user">
-      <Header onPilotOpen={() => setPilotOpen(true)} />
+      <Header />
       <main>
         <Hero onPilotOpen={() => setPilotOpen(true)} />
         <ProblemSection />
