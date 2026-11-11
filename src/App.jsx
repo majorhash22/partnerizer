@@ -11,7 +11,7 @@ import {
   ArrowRight,
   ChartLineUp,
   Check,
-  CheckCircle,
+  ClipboardText,
   CopySimple,
   IdentificationCard,
   List,
@@ -24,10 +24,34 @@ import {
 } from "@phosphor-icons/react";
 
 const navItems = [
-  ["Solution", "#solution"],
+  ["Platform", "#solution"],
+  ["Who it’s for", "#network-pathway"],
   ["MerchantMatcher", "#merchant-matcher"],
   ["How it works", "#how-it-works"],
-  ["Build your cohort", "#cohort"],
+];
+
+const platformCapabilities = [
+  {
+    title: "Design your program",
+    copy: "Choose a focused group of members, set a goal, and plan onboarding with PartneRizer.",
+    href: "#cohort",
+    link: "Plan a cohort",
+    icon: ClipboardText,
+  },
+  {
+    title: "Connect your members",
+    copy: "Give members a place to share what they need, find relevant businesses, and approve introductions.",
+    href: "#merchant-matcher",
+    link: "See MerchantMatcher",
+    icon: UsersThree,
+  },
+  {
+    title: "Review what follows",
+    copy: "Review participation, introductions, and follow-up with your network team to improve the next cohort.",
+    href: "#program-delivery",
+    link: "See program delivery",
+    icon: ChartLineUp,
+  },
 ];
 
 const workflowSteps = [
@@ -63,27 +87,23 @@ const workflowSteps = [
 
 const audiences = [
   {
-    title: "Already a member",
-    copy: "Start matching with businesses inside a network you already know and trust.",
+    title: "Chambers of commerce",
+    copy: "Help local businesses find collaborators, suppliers, and referral partners within your membership.",
   },
   {
-    title: "Joining a network",
-    copy: "Use MerchantMatcher as a practical first step into a participating local business community.",
+    title: "Business associations",
+    copy: "Introduce members around shared priorities such as finding suppliers or pursuing joint opportunities.",
   },
   {
-    title: "Independent business",
-    copy: "Discover relevant partners first, then connect into the network that can help those relationships grow.",
-  },
-  {
-    title: "Network partner",
-    copy: "Give businesses a clearer onboarding path and a useful reason to stay active after they join.",
+    title: "Referral networks",
+    copy: "Surface who is a fit for each referral and give both sides context before they meet.",
   },
 ];
 
 const trustPrinciples = [
   {
     title: "Curated matches",
-    copy: "Operators add context and quality control while the product learns what a strong fit looks like.",
+    copy: "Network operators can add context about what makes a match useful for their members.",
     icon: UsersThree,
   },
   {
@@ -92,8 +112,8 @@ const trustPrinciples = [
     icon: ShieldCheck,
   },
   {
-    title: "Measurable activity",
-    copy: "Profiles, matches, introductions, meetings, and outcomes give the network a practical evidence trail.",
+    title: "Follow-through",
+    copy: "Use profiles, matches, and introductions to see who is participating and where a connection needs follow-up.",
     icon: TrendUp,
   },
 ];
@@ -200,8 +220,8 @@ function Header() {
           <a key={href} href={href}>{label}</a>
         ))}
       </nav>
-      <a className="header-cta" href="#merchant-matcher" onClick={() => setMenuOpen(false)}>
-        Explore MerchantMatcher
+      <a className="header-cta" href="#cohort">
+        Plan a pilot
         <ArrowRight size={18} weight="bold" aria-hidden="true" />
       </a>
       <button
@@ -226,9 +246,9 @@ function Header() {
             {navItems.map(([label, href]) => (
               <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
             ))}
-            <a className="mobile-nav__cta" href="#merchant-matcher" onClick={() => setMenuOpen(false)}>
-              Explore MerchantMatcher
-              <ArrowRight size={18} weight="bold" />
+            <a className="mobile-nav__cta" href="#cohort" onClick={() => setMenuOpen(false)}>
+              Plan a pilot
+              <ArrowRight size={18} weight="bold" aria-hidden="true" />
             </a>
           </motion.nav>
         ) : null}
@@ -264,29 +284,21 @@ function Hero({ onPilotOpen }) {
           }}
         >
           <motion.h1 variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            <span>Better business matches.</span>
-            <span><strong>Stronger local networks.</strong></span>
+            <span>Run stronger</span>
+            <span><strong>partner programs.</strong></span>
           </motion.h1>
           <motion.p variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            PartneRizer is the partnership solution behind MerchantMatcher — the business-facing experience that turns real needs into relevant matches, warm introductions, and stronger network participation.
+            PartneRizer helps business networks match members, make trusted introductions, and see what happens next.
           </motion.p>
           <motion.div className="hero__actions" variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            <ActionLink href="#merchant-matcher" accent>
-              Explore MerchantMatcher
+            <ActionLink href="#solution" accent>
+              Explore the platform
             </ActionLink>
             <ActionLink href="#cohort" secondary onClick={(event) => { event.preventDefault(); onPilotOpen(); }}>
-              Build your cohort
+              Plan a pilot
             </ActionLink>
           </motion.div>
         </motion.div>
-        <motion.p
-          className="hero__statement"
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-        >
-          MerchantMatcher activates the business relationship.<br />PartneRizer helps the network make it work.
-        </motion.p>
       </div>
     </ScrollRevealSection>
   );
@@ -301,116 +313,27 @@ function SectionIntro({ title, body, light = false }) {
   );
 }
 
-function ProblemSection() {
+function PlatformOverview() {
   return (
-    <ScrollRevealSection className="problem section" id="solution">
-      <div className="shell problem__grid">
-        <motion.div
-          className="problem__aside"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.35 }}
-          variants={reveal}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="problem__word">Visibility</span>
-          <span className="problem__word">Trust</span>
-          <span className="problem__word problem__word--active">Follow-through</span>
-        </motion.div>
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.25 }}
-          variants={reveal}
-          transition={{ duration: 0.64, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SectionIntro
-            title="From introductions to outcomes"
-            body="Directories can show who is in the room. MerchantMatcher helps businesses understand who is relevant, why they should connect, and what a useful next step could be."
-          />
-          <div className="problem__result">
-            <span>Connection</span>
-            <ArrowRight size={22} weight="bold" aria-hidden="true" />
-            <span>Context</span>
-            <ArrowRight size={22} weight="bold" aria-hidden="true" />
-            <strong>Business opportunity</strong>
-          </div>
-        </motion.div>
-      </div>
-    </ScrollRevealSection>
-  );
-}
-
-function ProductLayers() {
-  return (
-    <ScrollRevealSection className="layers section" id="merchant-matcher">
+    <ScrollRevealSection className="platform section" id="solution">
       <div className="shell">
         <SectionIntro
-          title="One partnership solution. One clear business experience."
-          body="PartneRizer supports the relationship with the network. MerchantMatcher sits underneath it as the experience businesses use to discover and act on relevant opportunities."
-          light
+          title="One platform for your partner program"
+          body="Start with a cohort, help members connect through MerchantMatcher, and use what you learn to improve the program."
         />
-        <div className="layer-stack" aria-label="PartneRizer and MerchantMatcher relationship">
-          <motion.article
-            className="layer-card layer-card--platform"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-            variants={reveal}
-            transition={{ duration: 0.55 }}
-          >
-            <div className="layer-card__eyebrow">Partnership layer</div>
-            <div className="layer-card__body">
-              <div>
-                <h3>PartneRizer</h3>
-                <p>A partnership solution built with network leaders to shape the cohort, support onboarding, guide match quality, and learn what creates value in that specific ecosystem.</p>
-              </div>
-              <ul>
-                <li><CheckCircle size={20} weight="fill" />Network partnership</li>
-                <li><CheckCircle size={20} weight="fill" />Cohort design</li>
-                <li><CheckCircle size={20} weight="fill" />Human oversight</li>
-              </ul>
-            </div>
-          </motion.article>
-
-          <div className="layer-connector" aria-hidden="true">
-            <span />
-            <small>powers</small>
-            <span />
-          </div>
-
-          <motion.article
-            className="layer-card layer-card--matcher"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.35 }}
-            variants={reveal}
-            transition={{ duration: 0.55, delay: 0.08 }}
-          >
-            <div className="layer-card__eyebrow">Business experience</div>
-            <div className="layer-card__body">
-              <div>
-                <h3><span>Merchant</span>Matcher</h3>
-                <p>The market-facing app for small and medium-sized businesses to create a partner-ready profile, discover relevant collaborators, approve warm introductions, and take the next step into their network of choice.</p>
-              </div>
-              <ul>
-                <li><CheckCircle size={20} weight="fill" />Partner-ready profiles</li>
-                <li><CheckCircle size={20} weight="fill" />Relevant matches</li>
-                <li><CheckCircle size={20} weight="fill" />Warm introductions</li>
-              </ul>
-            </div>
-          </motion.article>
-
-          <div className="layer-outcome">
-            <span>Discover</span>
-            <ArrowRight size={18} weight="bold" aria-hidden="true" />
-            <span>Match</span>
-            <ArrowRight size={18} weight="bold" aria-hidden="true" />
-            <span>Connect</span>
-            <ArrowRight size={18} weight="bold" aria-hidden="true" />
-            <strong>Grow through the network</strong>
-          </div>
-        </div>
+        <ol className="platform__capabilities">
+          {platformCapabilities.map(({ title, copy, href, link, icon: Icon }) => (
+            <li key={title} className="platform__capability">
+              <Icon size={30} weight="duotone" aria-hidden="true" />
+              <h3>{title}</h3>
+              <p>{copy}</p>
+              <a href={href}>
+                {link}
+                <ArrowRight size={17} weight="bold" aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ol>
       </div>
     </ScrollRevealSection>
   );
@@ -420,15 +343,37 @@ function Workflow() {
   const [activeIndex, setActiveIndex] = useState(0);
   const activeStep = workflowSteps[activeIndex];
   const ActiveIcon = activeStep.icon;
+
+  const handleTabKeyDown = (event) => {
+    const lastIndex = workflowSteps.length - 1;
+    const nextIndexByKey = {
+      ArrowLeft: activeIndex === 0 ? lastIndex : activeIndex - 1,
+      ArrowRight: activeIndex === lastIndex ? 0 : activeIndex + 1,
+      Home: 0,
+      End: lastIndex,
+    };
+    const nextIndex = nextIndexByKey[event.key];
+    if (!Number.isInteger(nextIndex)) return;
+    event.preventDefault();
+    setActiveIndex(nextIndex);
+    event.currentTarget.querySelectorAll('[role="tab"]')[nextIndex]?.focus();
+  };
+
   return (
-    <ScrollRevealSection className="workflow section" id="how-it-works">
+    <ScrollRevealSection className="workflow section" id="merchant-matcher">
       <div className="shell">
         <SectionIntro
-          title="How MerchantMatcher moves a business forward"
-          body="The experience stays simple for businesses while preserving the context and human judgment that make a trusted introduction useful."
+          title="MerchantMatcher"
+          body="The experience your members use to find relevant businesses and agree to introductions. Here’s what that looks like from a member’s first profile to their next opportunity."
           light
         />
-        <div className="workflow__rail" role="tablist" aria-label="MerchantMatcher workflow">
+        <div
+          className="workflow__rail"
+          id="how-it-works"
+          role="tablist"
+          aria-label="MerchantMatcher workflow"
+          onKeyDown={handleTabKeyDown}
+        >
           <motion.span
             className="workflow__progress"
             aria-hidden="true"
@@ -441,37 +386,39 @@ function Workflow() {
               <button
                 type="button"
                 role="tab"
+                id={`workflow-tab-${index}`}
                 aria-selected={index === activeIndex}
                 aria-controls="workflow-panel"
+                tabIndex={index === activeIndex ? 0 : -1}
                 className={index <= activeIndex ? "is-reached" : ""}
                 key={step.name}
                 onClick={() => setActiveIndex(index)}
               >
-                <span className="workflow__icon"><Icon size={27} weight="regular" /></span>
+                <span className="workflow__icon"><Icon size={27} weight="regular" aria-hidden="true" /></span>
                 <strong>{step.name}</strong>
                 <small>{step.copy}</small>
               </button>
             );
           })}
         </div>
-        <AnimatePresence mode="wait">
-          <motion.div
-            className="workflow__detail"
-            id="workflow-panel"
-            role="tabpanel"
-            key={activeStep.name}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.22 }}
-          >
-            <ActiveIcon size={32} weight="duotone" aria-hidden="true" />
-            <div>
-              <strong>{activeStep.name}</strong>
-              <p>{activeStep.detail}</p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+        <div id="workflow-panel" role="tabpanel" aria-labelledby={`workflow-tab-${activeIndex}`} tabIndex={0}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              className="workflow__detail"
+              key={activeStep.name}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22 }}
+            >
+              <ActiveIcon size={32} weight="duotone" aria-hidden="true" />
+              <div>
+                <strong>{activeStep.name}</strong>
+                <p>{activeStep.detail}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </ScrollRevealSection>
   );
@@ -496,8 +443,8 @@ function AudienceSection() {
         </motion.figure>
         <div>
           <SectionIntro
-            title="A clearer path into a trusted business network"
-            body="MerchantMatcher can serve businesses already inside a network and businesses looking for the right way in. The network becomes the trusted environment where those relationships can keep growing."
+            title="Built for member-led networks"
+            body="Give members a practical reason to engage with your network and a clear path from an introduction to a conversation."
           />
           <div className="audience__list">
             {audiences.map((audience, index) => (
@@ -522,12 +469,12 @@ function AudienceSection() {
 
 function TrustSection() {
   return (
-    <ScrollRevealSection className="trust section">
+    <ScrollRevealSection className="trust section" id="program-delivery">
       <div className="shell trust__layout">
         <div className="trust__intro">
           <SectionIntro
-            title="Human judgment stays in the loop."
-            body="Smart technology supports the relationship. Context, consent, and operator judgment protect its quality."
+            title="Keep your team involved"
+            body="Your network team helps shape the cohort, guide the quality of matches, and review how members participate."
             light
           />
         </div>
@@ -620,10 +567,10 @@ function PilotSection({ onPilotOpen }) {
         variants={reveal}
         transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
       >
-        <h2>Build a focused cohort around a real network opportunity.</h2>
-        <p>Start deliberately, apply what we learn, and turn the strongest practices into a repeatable model.</p>
+        <h2>Start with one member cohort</h2>
+        <p>Choose your network type, cohort size, and goal. The planner creates a brief you can copy and share.</p>
         <button className="button" type="button" onClick={onPilotOpen}>
-          <span>Build your cohort</span>
+          <span>Plan a pilot</span>
           <ArrowRight size={19} weight="bold" aria-hidden="true" />
         </button>
       </motion.div>
@@ -719,7 +666,7 @@ function PilotPlanner({ open, onClose }) {
               <form onSubmit={submit} noValidate>
                 <span className="pilot-planner__step">Cohort planner</span>
                 <h2 id="pilot-planner-title">Shape a focused cohort</h2>
-                <p>A focused starting brief takes less than a minute. Nothing leaves your browser.</p>
+                <p>Create a pilot brief to share with your network team. The planner runs in your browser.</p>
                 <label>
                   Organization name
                   <input
@@ -811,10 +758,9 @@ export default function App() {
       <Header />
       <main>
         <Hero onPilotOpen={() => setPilotOpen(true)} />
-        <ProblemSection />
-        <ProductLayers />
-        <Workflow />
+        <PlatformOverview />
         <AudienceSection />
+        <Workflow />
         <TrustSection />
         <FounderSection />
         <PilotSection onPilotOpen={() => setPilotOpen(true)} />

@@ -51,7 +51,7 @@ The deployed site will be available at `https://majorhash22.github.io/partnerize
 - Responsive desktop and mobile layouts
 - Self-hosted Barlow Condensed and Manrope fonts
 - Reduced-motion support
-- Interactive product-layer selector and workflow
+- Platform overview for network operators and an interactive MerchantMatcher workflow
 - Local pilot planner with no external data submission
 - Optimized WebP production imagery
 
