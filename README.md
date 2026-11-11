@@ -1,6 +1,6 @@
 # PartneRizer website
 
-Production-ready React and Vite landing page for PartneRizer.
+React and Vite marketing website for PartneRizer, with dedicated Platform, Solutions, and Ecosystems pages.
 
 ## Requirements
 
@@ -25,7 +25,7 @@ pnpm build
 pnpm preview
 ```
 
-The production site is written to `dist`. The same build also refreshes `OPEN_WEBSITE.html`, a standalone launcher that can be opened directly without a server.
+The production site is written to `dist`, with directory URLs for `/platform/`, `/solutions/`, and `/ecosystems/` relative to the deployed base path. The build also refreshes `OPEN_WEBSITE.html`, a browser preview for all four pages that uses the images in `dist`.
 
 ## Deployment
 
@@ -52,6 +52,7 @@ The deployed site will be available at `https://majorhash22.github.io/partnerize
 - Self-hosted Barlow Condensed and Manrope fonts
 - Reduced-motion support
 - Platform overview for network operators and an interactive MerchantMatcher workflow
+- Use cases by network type and a filterable ecosystem directory with fictional organizations
 - Local pilot planner with no external data submission
 - Optimized WebP production imagery
 

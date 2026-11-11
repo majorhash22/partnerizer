@@ -13,7 +13,7 @@ const mimeTypes = {
 
 const localPath = (assetPath) => assetPath.replace(/^\.\//, "").replace(/^\//, "");
 
-let html = await readFile(distIndex, "utf8");
+let html = (await readFile(distIndex, "utf8")).replaceAll("\r\n", "\n");
 
 const stylesheetTag = html.match(/<link rel="stylesheet"[^>]+href="([^"]+)"[^>]*>/);
 if (!stylesheetTag) throw new Error("Could not find the generated stylesheet.");

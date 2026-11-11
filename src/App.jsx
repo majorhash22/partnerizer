@@ -22,12 +22,14 @@ import {
   UsersThree,
   X,
 } from "@phosphor-icons/react";
+import { EcosystemsContent, PageHero, SolutionsContent } from "./Pages.jsx";
+import { currentPage, imageSrc, pageHref } from "./site.js";
 
 const navItems = [
-  ["Platform", "#solution"],
-  ["Who it’s for", "#network-pathway"],
-  ["MerchantMatcher", "#merchant-matcher"],
-  ["How it works", "#how-it-works"],
+  ["Platform", "platform"],
+  ["Solutions", "solutions"],
+  ["Ecosystems", "ecosystems"],
+  ["MerchantMatcher", "platform", "merchant-matcher"],
 ];
 
 const platformCapabilities = [
@@ -171,13 +173,26 @@ function ScrollRevealSection({ children, className, id, amount = 0.12 }) {
 
 function BrandLockup({ footer = false }) {
   return (
-    <a className={`brand-lockup${footer ? " brand-lockup--footer" : ""}`} href="#top" aria-label="PartneRizer home">
+    <a className={`brand-lockup${footer ? " brand-lockup--footer" : ""}`} href={pageHref("home", "top")} aria-label="PartneRizer home">
       <span className="brand-lockup__crop" aria-hidden="true">
-        <img src="./images/partnerizer-logo.png" alt="" />
+        <img src={imageSrc("partnerizer-logo.png")} alt="" />
       </span>
       <span className="sr-only">PartneRizer, Revenue Force Multiplier</span>
     </a>
   );
+}
+
+function NavigationLinks({ onNavigate }) {
+  return navItems.map(([label, page, anchor]) => (
+    <a
+      key={label}
+      href={pageHref(page, anchor)}
+      aria-current={currentPage === page && !anchor ? "page" : undefined}
+      onClick={onNavigate}
+    >
+      {label}
+    </a>
+  ));
 }
 
 function ActionLink({ href, children, secondary = false, accent = false, onClick }) {
@@ -216,9 +231,7 @@ function Header() {
     >
       <BrandLockup />
       <nav className="desktop-nav" aria-label="Primary navigation">
-        {navItems.map(([label, href]) => (
-          <a key={href} href={href}>{label}</a>
-        ))}
+        <NavigationLinks />
       </nav>
       <a className="header-cta" href="#cohort">
         Plan a pilot
@@ -243,9 +256,7 @@ function Header() {
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
           >
-            {navItems.map(([label, href]) => (
-              <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
-            ))}
+            <NavigationLinks onNavigate={() => setMenuOpen(false)} />
             <a className="mobile-nav__cta" href="#cohort" onClick={() => setMenuOpen(false)}>
               Plan a pilot
               <ArrowRight size={18} weight="bold" aria-hidden="true" />
@@ -265,7 +276,7 @@ function Hero({ onPilotOpen }) {
     <ScrollRevealSection className="hero" id="top" amount={0.08}>
       <motion.img
         className="hero__image"
-        src="./images/hero2.webp"
+        src={imageSrc("hero2.webp")}
         alt="Business professionals greeting with a handshake during a meeting"
         fetchPriority="high"
         style={{ y: reduceMotion ? "0%" : imageY }}
@@ -291,7 +302,7 @@ function Hero({ onPilotOpen }) {
             PartneRizer helps business networks match members, make trusted introductions, and see what happens next.
           </motion.p>
           <motion.div className="hero__actions" variants={reveal} transition={{ duration: 0.62, ease: [0.16, 1, 0.3, 1] }}>
-            <ActionLink href="#solution" accent>
+            <ActionLink href={pageHref("platform")} accent>
               Explore the platform
             </ActionLink>
             <ActionLink href="#cohort" secondary onClick={(event) => { event.preventDefault(); onPilotOpen(); }}>
@@ -436,7 +447,7 @@ function AudienceSection() {
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         >
           <img
-            src="./images/network-workshop.webp"
+            src={imageSrc("network-workshop.webp")}
             alt="A facilitator guiding business owners through a collaborative workshop"
             loading="lazy"
           />
@@ -460,6 +471,9 @@ function AudienceSection() {
                 <p>{audience.copy}</p>
               </motion.div>
             ))}
+          </div>
+          <div className="audience__actions">
+            <ActionLink href={pageHref("solutions")} secondary>Explore solutions</ActionLink>
           </div>
         </div>
       </div>
@@ -550,15 +564,17 @@ function FounderSection() {
   );
 }
 
-function PilotSection({ onPilotOpen }) {
+function PilotSection({ onPilotOpen, compact = false }) {
   return (
-    <ScrollRevealSection className="pilot" id="cohort">
-      <img
-        className="pilot__image"
-        src="./images/pilot-landscape.webp"
-        alt="A focused group overlooking a Saskatchewan river valley at blue hour"
-        loading="lazy"
-      />
+    <ScrollRevealSection className={compact ? "pilot pilot--compact" : "pilot"} id="cohort">
+      {compact ? null : (
+        <img
+          className="pilot__image"
+          src={imageSrc("pilot-landscape.webp")}
+          alt="A focused group overlooking a Saskatchewan river valley at blue hour"
+          loading="lazy"
+        />
+      )}
       <motion.div
         className="shell pilot__inner"
         initial="hidden"
@@ -741,9 +757,7 @@ function Footer() {
       <div className="shell site-footer__inner">
         <BrandLockup footer />
         <nav aria-label="Footer navigation">
-          {navItems.map(([label, href]) => (
-            <a key={href} href={href}>{label}</a>
-          ))}
+          <NavigationLinks />
         </nav>
         <p>PartneRizer Consulting Inc.<br />Revenue Force Multiplier</p>
       </div>
@@ -751,19 +765,83 @@ function Footer() {
   );
 }
 
+function PageContent({ onPilotOpen }) {
+  switch (currentPage) {
+    case "platform":
+      return (
+        <>
+          <PageHero
+            label="Platform"
+            title="Run a connected partner program"
+            description="Design your cohort, help members find the right businesses through MerchantMatcher, and review what happens after the introduction."
+            image="network-workshop.webp"
+            imageAlt="Business owners collaborating at a network workshop"
+          >
+            <ActionLink href="#solution" accent>See the program workflow</ActionLink>
+          </PageHero>
+          <PlatformOverview />
+          <Workflow />
+          <TrustSection />
+        </>
+      );
+    case "solutions":
+      return (
+        <>
+          <PageHero
+            label="Solutions"
+            title="Make membership more useful"
+            description="Find a practical first program for your chamber, business association, or referral network."
+            image="pilot-landscape.webp"
+            imageAlt="A group overlooking a Saskatchewan river valley"
+          >
+            <ActionLink href="#use-cases" accent>Find your use case</ActionLink>
+          </PageHero>
+          <SolutionsContent />
+        </>
+      );
+    case "ecosystems":
+      return (
+        <>
+          <PageHero
+            label="Ecosystems"
+            title="See a partner ecosystem in action"
+            description="Explore a fictional network of hosts, member businesses, and service providers, and see how they could work together."
+            image="hero2.webp"
+            imageAlt="Business professionals greeting with a handshake"
+          >
+            <ActionLink href="#example-organizations" accent>Browse organizations</ActionLink>
+          </PageHero>
+          <EcosystemsContent />
+        </>
+      );
+    default:
+      return (
+        <>
+          <Hero onPilotOpen={onPilotOpen} />
+          <PlatformOverview />
+          <AudienceSection />
+          <Workflow />
+          <TrustSection />
+          <FounderSection />
+        </>
+      );
+  }
+}
+
 export default function App() {
   const [pilotOpen, setPilotOpen] = useState(false);
+
+  useEffect(() => {
+    const target = document.getElementById(window.location.hash.slice(1));
+    target?.scrollIntoView();
+  }, []);
+
   return (
     <MotionConfig reducedMotion="user">
       <Header />
       <main>
-        <Hero onPilotOpen={() => setPilotOpen(true)} />
-        <PlatformOverview />
-        <AudienceSection />
-        <Workflow />
-        <TrustSection />
-        <FounderSection />
-        <PilotSection onPilotOpen={() => setPilotOpen(true)} />
+        <PageContent onPilotOpen={() => setPilotOpen(true)} />
+        <PilotSection onPilotOpen={() => setPilotOpen(true)} compact={currentPage !== "home"} />
       </main>
       <Footer />
       <PilotPlanner open={pilotOpen} onClose={() => setPilotOpen(false)} />
